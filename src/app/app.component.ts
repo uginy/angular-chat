@@ -7,8 +7,7 @@ import { ChatService } from './chat.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private chatService: ChatService) {
-  }
+  constructor(private chatService: ChatService) {}
 
   public messages: any[] = [];
   private connection;
@@ -20,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private dataToSend: { user: string; text: string; to: string } = {
     user: '',
     text: '',
-    to: null
+    to: null,
   };
 
   ngOnInit() {
@@ -36,14 +35,12 @@ export class AppComponent implements OnInit, OnDestroy {
       : localStorage.setItem('me', JSON.stringify(this.me));
     this.dataToSend.user = this.me;
     this.chatService.updateUsers(this.me);
-    this.users = this.chatService
-      .getUsers()
-      .subscribe((data: any) => {
-        this.usersList = data.list;
-        console.log(this.usersList);
-        const index = this.usersList.indexOf(this.me);
-        console.log(index);
-      });
+    this.users = this.chatService.getUsers().subscribe((data: any) => {
+      this.usersList = data.list;
+      console.log(this.usersList);
+      const index = this.usersList.indexOf(this.me);
+      console.log(index);
+    });
   }
 
   setPm(user) {
@@ -72,7 +69,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.chatService.removeUser(this.me);
     this.connection.unsubscribe();
     this.users.unsubscribe();
   }
