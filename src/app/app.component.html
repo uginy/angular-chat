@@ -4,7 +4,7 @@
       <div *ngFor="let user of usersList">
         <div *ngIf="me!==user">
           <span style="cursor:pointer; font-weight: bold;" (click)="setPm(user)">{{ user }}</span>
-          <button (click)="clearPm()" *ngIf="selectedUser && selectedUser === user">x</button>
+          <button (click)="setPm()" *ngIf="selectedUser && selectedUser === user">x</button>
         </div>
         <div *ngIf="me===user">
           {{ user }}

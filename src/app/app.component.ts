@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChatService } from './chat.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +9,11 @@ import { ChatService } from './chat.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService) {
+    this.unsubscribeAll = new Subject();
+  }
 
+  private unsubscribeAll: Subject<any>;
   public messages: any[] = [];
   private connection;
   public users;
@@ -24,41 +29,43 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onUsersConnected();
-    this.connection = this.chatService.getMessages().subscribe((data: any) => {
-      this.messages.push(data.text);
-    });
+    this.onGetMessages();
+  }
+
+  onGetMessages() {
+    this.connection = this.chatService
+      .getMessages()
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((data: any) => {
+        this.messages.push(data.text);
+      });
   }
 
   onUsersConnected() {
     this.me = localStorage.getItem('me')
       ? JSON.parse(localStorage.getItem('me'))
       : localStorage.setItem('me', JSON.stringify(this.me));
+
     this.dataToSend.user = this.me;
-    this.chatService.updateUsers(this.me);
-    this.users = this.chatService.getUsers().subscribe((data: any) => {
-      this.usersList = data.list;
-      // console.log(this.usersList);
-      const index = this.usersList.indexOf(this.me);
-      // console.log(index);
-    });
+
+    this.chatService.addUser(this.me);
+
+    this.chatService
+      .getUsers()
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.usersList = data.list;
+      });
   }
 
-  setPm(user) {
+  setPm(user = null) {
     this.dataToSend.to = user;
     this.selectedUser = user;
   }
 
-  clearPm() {
-    this.dataToSend.to = null;
-    this.selectedUser = null;
-  }
-
   removeUser(user) {
     this.chatService.removeUser(user);
-  }
-
-  notBanned(user) {
-    return this.usersList.includes(user);
   }
 
   onAdd(data) {
@@ -68,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
-    this.users.unsubscribe();
+    this.unsubscribeAll.next();
+    this.unsubscribeAll.complete();
   }
 }
