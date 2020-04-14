@@ -11,8 +11,11 @@ export class ChatService {
   private socket = io(this.url);
 
   updateUsers(user) {
-    console.log(user);
     this.socket.emit('users', user);
+  }
+
+  removeUser(user) {
+    this.socket.emit('remove-user', user);
   }
 
   getUsers() {

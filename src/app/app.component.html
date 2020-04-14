@@ -4,11 +4,12 @@
       <div *ngFor="let user of usersList">
         <div *ngIf="me!==user">
           <span style="cursor:pointer; font-weight: bold;" (click)="setPm(user)">{{ user }}</span>
-          <button (click)="clearPm()" *ngIf="selectedUser === user">x</button>
+          <button (click)="clearPm()" *ngIf="selectedUser && selectedUser === user">x</button>
         </div>
         <div *ngIf="me===user">
           {{ user }}
         </div>
+<!--        <button (click)="removeUser(user)" *ngIf="user !== me">Del</button>-->
       </div>
     </div>
     <div class="message">
