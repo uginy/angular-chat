@@ -1,0 +1,33 @@
+<div class="wrapper">
+  <div class="content">
+    <div class="list">
+      <div *ngFor="let user of usersList">
+        <div *ngIf="me!==user">
+          <span style="cursor:pointer; font-weight: bold;" (click)="setPm(user)">{{ user }}</span>
+          <button (click)="clearPm()" *ngIf="selectedUser === user">x</button>
+        </div>
+        <div *ngIf="me===user">
+          {{ user }}
+        </div>
+      </div>
+    </div>
+    <div class="message">
+      <div>
+        My Username: {{ me }}
+        <hr>
+        <div class="messages">
+          <div *ngFor="let item of messages">
+            <div [ngClass]="{'me': item.user === me, 'notme': item.user!==me }">
+              <span *ngIf="!item.to">{{item.user}}: {{ item.text}}</span>
+              <span *ngIf="item.to && (me === item.user || me === item.to)">{{item.user}}: {{ item.text}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <input [(ngModel)]="message" (keyup.enter)="onAdd(message)"/>
+        <button (click)="onAdd(message)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
