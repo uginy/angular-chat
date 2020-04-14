@@ -37,9 +37,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.chatService.updateUsers(this.me);
     this.users = this.chatService.getUsers().subscribe((data: any) => {
       this.usersList = data.list;
-      console.log(this.usersList);
+      // console.log(this.usersList);
       const index = this.usersList.indexOf(this.me);
-      console.log(index);
+      // console.log(index);
     });
   }
 
@@ -65,7 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dataToSend.text = data;
     this.chatService.sendMessage(this.dataToSend);
     this.message = '';
-    console.log(this.dataToSend);
   }
 
   ngOnDestroy() {

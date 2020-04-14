@@ -6,12 +6,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ChatService {
-  // private url = 'https://my-mystychat.herokuapp.com';
-  private url = 'http://localhost:5000';
+  private url = 'https://my-mystychat.herokuapp.com';
+  //private url = 'http://localhost:5000';
   private socket = io(this.url);
 
   updateUsers(user) {
-    console.log(user);
     this.socket.emit('users', user);
   }
 
