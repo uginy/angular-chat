@@ -40,6 +40,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .getUsers()
       .subscribe((data: any) => {
         this.usersList = data.list;
+        console.log(this.usersList);
+        const index = this.usersList.indexOf(this.me);
+        console.log(index);
       });
   }
 
@@ -53,6 +56,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.selectedUser = null;
   }
 
+  removeUser(user) {
+    this.chatService.removeUser(user);
+  }
+
+  notBanned(user) {
+    return this.usersList.includes(user);
+  }
+
   onAdd(data) {
     this.dataToSend.text = data;
     this.chatService.sendMessage(this.dataToSend);
@@ -61,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.chatService.removeUser(this.me);
     this.connection.unsubscribe();
     this.users.unsubscribe();
   }
