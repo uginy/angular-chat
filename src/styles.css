@@ -1,19 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-body,
-html {
+html,
+body {
   height: 100%;
-  padding: 0;
+}
+body {
   margin: 0;
-}
-
-div,
-span,
-input,
-p {
-  font-size: 16px !important;
-}
-
-button,
-input {
-  padding: 7px 10px;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
