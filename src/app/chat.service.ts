@@ -1,13 +1,13 @@
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private url = 'https://my-mystychat.herokuapp.com';
-  // private url = 'http://192.168.0.108:5000';
+  private url = environment.apiUrl;
   private socket = io(this.url);
 
   removeUser(user) {
