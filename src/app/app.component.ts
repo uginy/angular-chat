@@ -3,6 +3,11 @@ import { ChatService } from './chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ViewChild, ElementRef } from '@angular/core';
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState,
+} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +15,10 @@ import { ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private chatService: ChatService) {
+  constructor(
+    private chatService: ChatService,
+    public breakpointObserver: BreakpointObserver
+  ) {
     this.unsubscribeAll = new Subject();
   }
   @ViewChild('inpt') inpt: ElementRef;
@@ -24,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public usersList = [];
   public filterSearch;
   public isOutside;
+  public screenSize: any = {};
   public me = 'User' + Math.floor(Math.random() * 100 + 2);
   public changedMe;
   private dataToSend: { user: string; text: string; to: string } = {
@@ -31,6 +40,16 @@ export class AppComponent implements OnInit, OnDestroy {
     text: '',
     to: null,
   };
+  public isSmallScreen = this.breakpointObserver.isMatched(
+    '(max-width: 961px)'
+  );
+
+  ngOnInit() {
+    this.mediaDetecor();
+    this.changedMe = this.me;
+    this.onUsersConnected();
+    this.onGetMessages();
+  }
 
   @HostListener('document:click')
   clickout() {
@@ -39,10 +58,20 @@ export class AppComponent implements OnInit, OnDestroy {
       this.changeName(this.inpt.nativeElement.value);
   }
 
-  ngOnInit() {
-    this.changedMe = this.me;
-    this.onUsersConnected();
-    this.onGetMessages();
+  mediaDetecor() {
+    this.breakpointObserver
+      .observe([Breakpoints.Small, Breakpoints.XSmall])
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((state: BreakpointState) => {
+        this.screenSize = {};
+        if (
+          state.breakpoints[Breakpoints.Small] ||
+          state.breakpoints[Breakpoints.XSmall]
+        ) {
+          console.log('Matches Small viewport');
+          this.screenSize.sm = true;
+        }
+      });
   }
 
   onGetMessages() {

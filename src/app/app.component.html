@@ -1,4 +1,5 @@
-<div class="grid-container">
+<!-- <pre>{{ screenSize | json }}</pre> -->
+<div class="grid-container" [ngClass]="{'grid-sm': screenSize?.sm}">
   <div class="Header">
     <div style="display:flex; align-items: center;"
          (mouseleave)="isOutside=true"
@@ -42,7 +43,7 @@
     </div>
   </div>
 
-  <div class="Options">Options</div>
+  <div class="Options" [ngClass]="{'hidden': screenSize.sm}">Options</div>
 
   <div class="Send">
     <input [(ngModel)]="message" (keyup.enter)="onAdd(message)" />

@@ -1,6 +1,6 @@
 .grid-container {
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
   display: grid;
   height: 100%;
@@ -8,6 +8,19 @@
   grid-template-columns: 2fr 8fr;
   grid-template-rows: auto 1fr auto;
   grid-template-areas: "Search Header" "Users Messages" "Options Send";
+}
+
+.grid-sm {
+  height: 100%;
+  max-width: 100%;
+  background: #fff;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-areas: "Header" "Search" "Users" "Messages" "Send";
+}
+
+.hidden {
+  display: none;
 }
 
 .grid-container > div {
