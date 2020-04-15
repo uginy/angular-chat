@@ -3,18 +3,24 @@
     <div class="list">
       <div *ngFor="let user of usersList">
         <div *ngIf="me!==user">
-          <span style="cursor:pointer; font-weight: bold;" (click)="setPm(user)">{{ user }}</span>
+          <span style="cursor:pointer; font-weight: bold;"
+          (click)="setPm(user)">{{ user }}</span>
           <button (click)="setPm()" *ngIf="selectedUser && selectedUser === user">x</button>
         </div>
         <div *ngIf="me===user">
-          {{ user }}
+          {{user}}
         </div>
-<!--        <button (click)="removeUser(user)" *ngIf="user !== me">Del</button>-->
       </div>
     </div>
     <div class="message">
       <div>
-        My Username: {{ me }}
+        <a (dblclick)="changeme = true" *ngIf="!changeme">{{ me }}</a>
+        <input *ngIf="changeme" type="text"
+        #inp
+        value="{{me}}"
+        (keyup.enter)="changeName(inp.value)"
+        (keyup.escape)="changeName(inp.value)"
+        >
         <hr>
         <div class="messages">
           <div *ngFor="let item of messages">
@@ -32,3 +38,4 @@
     </div>
   </div>
 </div>
+<!-- <router-outlet></router-outlet> -->

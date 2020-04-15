@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,10 +17,12 @@ export class AppComponent implements OnInit, OnDestroy {
   public messages: any[] = [];
   private connection;
   public users;
+  public changeme = false;
   public message;
   public selectedUser;
   public usersList = [];
   public me = 'User' + Math.floor(Math.random() * 100 + 2);
+  public changedMe;
   private dataToSend: { user: string; text: string; to: string } = {
     user: '',
     text: '',
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
+    this.changedMe = this.me;
     this.onUsersConnected();
     this.onGetMessages();
   }
@@ -54,7 +57,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .getUsers()
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((data: any) => {
-        console.log(data);
         this.usersList = data.list;
       });
   }
@@ -72,6 +74,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dataToSend.text = data;
     this.chatService.sendMessage(this.dataToSend);
     this.message = '';
+  }
+
+  changeName(name) {
+    const newMe = { old: this.me, new: name };
+    this.chatService.updateUser(newMe);
+    this.me = name;
+    localStorage.setItem('me', JSON.stringify(this.me));
+    this.changeme = false;
   }
 
   ngOnDestroy() {
