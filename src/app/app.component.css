@@ -1,26 +1,55 @@
-.wrapper {
-  max-width: 600px;
+.grid-container {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
   height: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  background: #fff;
+  grid-template-columns: 2fr 8fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "Search Header" "Users Messages" "Options Send";
 }
 
-.content {
-  padding: 2rem;
-  display: flex;
-  height: 90%;
+.grid-container > div {
+  border: 1px solid silver;
+  padding: 1rem;
 }
 
-.list {
-  flex: 2;
+.Users {
+  grid-area: Users;
 }
 
-.message {
-  flex: 5;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.Messages {
+  grid-area: Messages;
 }
+
+.Options {
+  grid-area: Options;
+}
+
+.Send {
+  grid-area: Send;
+}
+
+.Send input {
+  width: 100%;
+  font-size: 1.3rem;
+  padding: 4px 0;
+}
+
+.Search {
+  grid-area: Search;
+}
+
+.Search input {
+  width: 100%;
+  margin: 0;
+}
+
+.Header {
+  grid-area: Header;
+}
+
 .me {
   color: green;
 }

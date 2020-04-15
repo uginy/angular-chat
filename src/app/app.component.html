@@ -1,41 +1,53 @@
-<div class="wrapper">
-  <div class="content">
-    <div class="list">
-      <div *ngFor="let user of usersList">
-        <div *ngIf="me!==user">
-          <span style="cursor:pointer; font-weight: bold;"
-          (click)="setPm(user)">{{ user }}</span>
-          <button (click)="setPm()" *ngIf="selectedUser && selectedUser === user">x</button>
-        </div>
-        <div *ngIf="me===user">
-          {{user}}
-        </div>
-      </div>
+<div class="grid-container">
+  <div class="Header">
+    <div style="display:flex; align-items: center;"
+         (mouseleave)="isOutside=true"
+         (mouseenter)="isOutside=false">
+      <mat-form-field appearance="outline" (dblclick)="changeme = true" *ngIf="!changeme">
+        <input matInput value="{{me}}" disabled="!changeme">
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="changeme">
+        <mat-label>Change User Name</mat-label>
+        <input matInput placeholder="Change User Name" value="{{me}}" (keyup.enter)="changeName(inpt.value)"
+               (keyup.esc)="changeName(me)" #inpt>
+      </mat-form-field>
     </div>
-    <div class="message">
-      <div>
-        <a (dblclick)="changeme = true" *ngIf="!changeme">{{ me }}</a>
-        <input *ngIf="changeme" type="text"
-        #inp
-        value="{{me}}"
-        (keyup.enter)="changeName(inp.value)"
-        (keyup.esc)="changeName(inp.value)"
-        >
-        <hr>
-        <div class="messages">
-          <div *ngFor="let item of messages">
-            <div [ngClass]="{'me': item.user === me, 'notme': item.user!==me }">
-              <span *ngIf="!item.to">{{item.user}}: {{ item.text}}</span>
-              <span *ngIf="item.to && (me === item.user || me === item.to)">{{item.user}}: {{ item.text}}</span>
-            </div>
-          </div>
-        </div>
+  </div>
+
+  <div class="Search">
+    <mat-form-field appearance="outline">
+      <mat-label>Search Users</mat-label>
+      <input matInput placeholder="Search Users" [(ngModel)]="filterSearch">
+    </mat-form-field>
+  </div>
+  <div class="Users">
+    <div *ngFor="let user of usersList | filter: filterSearch">
+      <div *ngIf="me!==user">
+        <span style="cursor:pointer; font-weight: bold;"
+              (click)="setPm(user)">{{ user }}</span>
+        <button (click)="setPm()" *ngIf="selectedUser && selectedUser === user">x</button>
       </div>
-      <div>
-        <input [(ngModel)]="message" (keyup.enter)="onAdd(message)"/>
-        <button (click)="onAdd(message)">Add</button>
+      <div *ngIf="me===user">
+        {{user}}
       </div>
     </div>
   </div>
+
+  <div class="Messages">
+    <div *ngFor="let item of messages">
+      <div [ngClass]="{'me': item.user === me, 'notme': item.user!==me }">
+        <span *ngIf="!item.to">{{item.user}}: {{ item.text}}</span>
+        <span *ngIf="item.to && (me === item.user || me === item.to)">{{item.user}}: {{ item.text}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="Options">Options</div>
+
+  <div class="Send">
+    <input [(ngModel)]="message" (keyup.enter)="onAdd(message)" />
+  </div>
+
+
 </div>
 <!-- <router-outlet></router-outlet> -->
