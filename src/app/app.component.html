@@ -5,7 +5,8 @@
          (mouseleave)="isOutside=true"
          (mouseenter)="isOutside=false">
       <mat-form-field appearance="outline" (dblclick)="changeme = true" *ngIf="!changeme">
-        <input matInput value="{{me}}" disabled="!changeme">
+        <mat-label>Change User Name</mat-label>
+        <input matInput value="{{me}}">
       </mat-form-field>
       <mat-form-field appearance="outline" *ngIf="changeme">
         <mat-label>Change User Name</mat-label>
@@ -26,7 +27,6 @@
       <div *ngIf="me!==user">
         <span style="cursor:pointer; font-weight: bold;"
               (click)="setPm(user)">{{ user }}</span>
-        <button (click)="setPm()" *ngIf="selectedUser && selectedUser === user">x</button>
       </div>
       <div *ngIf="me===user">
         {{user}}
@@ -46,9 +46,14 @@
   <div class="Options" [ngClass]="{'hidden': screenSize.sm}">Options</div>
 
   <div class="Send">
+    <div>
+      <button class="pm" (click)="setPm()" *ngIf="selectedUser" mat-mini-fab>
+        <mat-icon>speaker_notes_off</mat-icon>
+      </button> {{selectedUser}}
+    </div>
     <input [(ngModel)]="message" (keyup.enter)="onAdd(message)" />
+    <button mat-button color="primary"><mat-icon matSuffix (click)="onAdd(message)">send</mat-icon></button>
   </div>
-
 
 </div>
 <!-- <router-outlet></router-outlet> -->

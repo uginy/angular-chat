@@ -34,6 +34,8 @@
 
 .Messages {
   grid-area: Messages;
+  overflow: auto;
+  max-height: 100%;
 }
 
 .Options {
@@ -42,6 +44,22 @@
 
 .Send {
   grid-area: Send;
+  display: flex;
+}
+
+.Send .pm {
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.Send .pm:hover {
+  background: red;
+  color: white;
+}
+
+.Send div {
+  white-space: nowrap;
+  padding-right: 10px;
 }
 
 .Send input {
@@ -50,7 +68,7 @@
   padding: 4px 0;
 }
 
-.Search {
+.Send .Search {
   grid-area: Search;
 }
 
@@ -64,9 +82,13 @@
 }
 
 .me {
+  display: flex;
+  justify-content: flex-start;
   color: green;
 }
 
 .notme {
+  display: flex;
+  justify-content: flex-end;
   color: red;
 }
