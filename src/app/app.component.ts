@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  AfterContentInit,
+} from '@angular/core';
 import { ChatService } from './chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -21,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.unsubscribeAll = new Subject();
   }
-  @ViewChild('inpt') inpt: ElementRef;
+  @ViewChild('inpt') inputs: ElementRef;
   private unsubscribeAll: Subject<any>;
   public messages: any[] = [];
   private connection;
@@ -53,9 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click')
   clickout() {
-    this.isOutside &&
-      this.changeme &&
-      this.changeName(this.inpt.nativeElement.value);
+    this.isOutside && this.changeme && this.changeName();
   }
 
   mediaDetecor() {
@@ -115,7 +119,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.message = '';
   }
 
-  changeName(name) {
+  changeName() {
+    const name = this.inputs.nativeElement.value;
     const newMe = { old: this.me, new: name };
     this.chatService.updateUser(newMe);
     this.me = name;

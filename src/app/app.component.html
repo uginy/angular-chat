@@ -4,14 +4,14 @@
     <div style="display:flex; align-items: center;"
          (mouseleave)="isOutside=true"
          (mouseenter)="isOutside=false">
-      <mat-form-field appearance="outline" (dblclick)="changeme = true" *ngIf="!changeme">
-        <mat-label>Change User Name</mat-label>
-        <input matInput value="{{me}}">
-      </mat-form-field>
+      <div class="profile" (dblclick)="changeme = true" *ngIf="!changeme">
+       <mat-icon>person</mat-icon> {{me }}
+      </div>
       <mat-form-field appearance="outline" *ngIf="changeme">
         <mat-label>Change User Name</mat-label>
-        <input matInput placeholder="Change User Name" value="{{me}}" (keyup.enter)="changeName(inpt.value)"
-               (keyup.esc)="changeName(me)" #inpt>
+        <input matInput placeholder="Change User Name" value="{{me}}"
+         (keyup.enter)="changeName()"
+         (keyup.esc)="changeme = false" #inpt>
       </mat-form-field>
     </div>
   </div>

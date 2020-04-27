@@ -92,3 +92,11 @@
   justify-content: flex-end;
   color: red;
 }
+
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 13px 2rem;
+  border-radius: 5px;
+  background: silver;
+}
