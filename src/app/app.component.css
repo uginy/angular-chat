@@ -62,10 +62,23 @@
   padding-right: 10px;
 }
 
+.Send button.send-button {
+  background: #a6eefa;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .Send input {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 1px solid silver;
   width: 100%;
   font-size: 1.3rem;
   padding: 4px 0;
+  padding-left: 0.5rem;
+}
+.Send input::placeholder {
+  font-size: 12px;
 }
 
 .Send .Search {
@@ -87,10 +100,33 @@
   color: green;
 }
 
+.user {
+  margin-bottom: 7px;
+  width: 30vw;
+}
+.me .user .message {
+  color: #000;
+  padding: 6px 12px;
+  background: rgb(201, 245, 218);
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
 .notme {
   display: flex;
   justify-content: flex-end;
   color: red;
+  text-align: right;
+}
+
+.notme .user .message {
+  padding: 6px 12px;
+  background: rgb(241, 213, 175);
+  color: #000;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
 }
 
 .profile {

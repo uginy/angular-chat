@@ -41,10 +41,16 @@ export class AppComponent implements OnInit, OnDestroy {
   public screenSize: any = {};
   public me = 'User' + Math.floor(Math.random() * 100 + 2);
   public changedMe;
-  private dataToSend: { user: string; text: string; to: string } = {
+  private dataToSend: {
+    user: string;
+    text: string;
+    to: string;
+    date: Date;
+  } = {
     user: '',
     text: '',
     to: null,
+    date: new Date(),
   };
   public isSmallScreen = this.breakpointObserver.isMatched(
     '(max-width: 961px)'
@@ -115,6 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onAdd(data) {
     this.dataToSend.text = data;
+    this.dataToSend.date = new Date();
     this.chatService.sendMessage(this.dataToSend);
     this.message = '';
   }

@@ -1,17 +1,16 @@
 <!-- <pre>{{ screenSize | json }}</pre> -->
 <div class="grid-container" [ngClass]="{'grid-sm': screenSize?.sm}">
   <div class="Header">
-    <div style="display:flex; align-items: center;"
-         (mouseleave)="isOutside=true"
-         (mouseenter)="isOutside=false">
+    <div style="display:flex; align-items: center;">
       <div class="profile" (dblclick)="changeme = true" *ngIf="!changeme">
-       <mat-icon>person</mat-icon> {{me }}
+        <mat-icon>person</mat-icon> {{me }}
       </div>
-      <mat-form-field appearance="outline" *ngIf="changeme">
+      <mat-form-field appearance="outline" *ngIf="changeme" (mouseleave)="isOutside=true"
+                      (mouseenter)="isOutside=false">
         <mat-label>Change User Name</mat-label>
         <input matInput placeholder="Change User Name" value="{{me}}"
-         (keyup.enter)="changeName()"
-         (keyup.esc)="changeme = false" #inpt>
+               (keyup.enter)="changeName()"
+               (keyup.esc)="changeme = false" #inpt>
       </mat-form-field>
     </div>
   </div>
@@ -37,13 +36,19 @@
   <div class="Messages">
     <div *ngFor="let item of messages">
       <div [ngClass]="{'me': item.user === me, 'notme': item.user!==me }">
-        <span *ngIf="!item.to">{{item.user}}: {{ item.text}}</span>
-        <span *ngIf="item.to && (me === item.user || me === item.to)">{{item.user}}: {{ item.text}}</span>
+        <div *ngIf="!item.to">
+          <div class="user">{{item.user}} @ {{item.date | date: 'yyyy-MM-dd, h:mm:ss'}}<mat-card class="message">{{ item.text}}</mat-card>
+          </div>
+        </div>
+        <div *ngIf="item.to && (me === item.user || me === item.to)">
+          <div class="user">{{item.user}} @ {{item.date | date: 'yyyy-MM-dd, h:mm:ss'}}<mat-card class="message">{{ item.text}}</mat-card>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="Options" [ngClass]="{'hidden': screenSize.sm}">Options</div>
+  <div class="Options" [ngClass]="{'hidden': screenSize.sm}"></div>
 
   <div class="Send">
     <div>
@@ -51,8 +56,10 @@
         <mat-icon>speaker_notes_off</mat-icon>
       </button> {{selectedUser}}
     </div>
-    <input [(ngModel)]="message" (keyup.enter)="onAdd(message)" />
-    <button mat-button color="primary"><mat-icon matSuffix (click)="onAdd(message)">send</mat-icon></button>
+    <input [(ngModel)]="message" (keyup.enter)="message ? onAdd(message): false" placeholder="Enter a message please"/>
+    <button class="send-button" mat-button color="primary" (click)="message? onAdd(message) : false">
+      <mat-icon matSuffix>send</mat-icon>
+    </button>
   </div>
 
 </div>
